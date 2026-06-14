@@ -34,7 +34,11 @@ jobs:
       - run: flutter pub get
       - name: Install Android SDK 36
         run: |
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-36" --sdk_root=$ANDROID_HOME 2>&1
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          ls -la $ANDROID_HOME/platforms/ 2>/dev/null || echo "No platforms dir"
+          ls $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager 2>/dev/null && echo "sdkmanager found" || echo "no sdkmanager"
+          yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-36" 2>&1 || true
       # 打包apk
       - name: Collect Apks
         run: flutter build apk --release --split-per-abi
