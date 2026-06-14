@@ -47,6 +47,9 @@ jobs:
           ENCODED_KEYSTORE: ${{ secrets.KEYSTORE }}
 
       - run: flutter pub get
+      - name: Install Android SDK 36
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" || yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-36"
       # 打包apk
       - name: Collect Apks
         run: flutter build apk --release --split-per-abi -v
